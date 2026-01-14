@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Beepd",
+    "slug": "beepd",
+    "version": "1.0.0",
+    "scheme": "beepd",
+    "platforms": ["ios", "android"],
+    "ios": {
+      "bundleIdentifier": "app.beepd.mobile",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Beepd needs your location to find nearby friends.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Beepd uses background location to notify you when friends are nearby."
+      }
+    },
+    "android": {
+      "package": "app.beepd.mobile",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
+    }
+  }
+}
