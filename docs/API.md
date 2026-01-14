@@ -407,7 +407,7 @@ export interface FriendsResponse {
   myFriendCode: string;
 }
 
-export type ConsentPurpose = 'LOCATION' | 'CALENDAR' | 'ANALYTICS';
+export type ConsentPurpose = 'LOCATION' | 'CALENDAR' | 'ANALYTICS' | 'CONTACTS';
 
 export interface ConsentGrant {
   purpose: ConsentPurpose;
