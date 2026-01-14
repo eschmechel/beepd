@@ -1,0 +1,30 @@
+name = "beepd-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[vars]
+ENVIRONMENT = "production"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "beepd"
+database_id = "2f2e855e-85a9-4070-905f-b96672bf00ee"
+
+# Preview environment
+[env.preview]
+name = "beepd-preview"
+
+[env.preview.vars]
+ENVIRONMENT = "preview"
+
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "beepd-preview"
+database_id = "98e5b983-5dca-40bf-a299-b1497ba195bf"
+
+# Cron triggers for cleanup
+[triggers]
+crons = [
+  "0 * * * *",      # Hourly: cleanup expired locations
+  "*/15 * * * *"    # Every 15min: cleanup proximity events
+]

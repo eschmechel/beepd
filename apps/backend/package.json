@@ -1,0 +1,28 @@
+{
+  "name": "@beepd/backend",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run",
+    "deploy": "wrangler deploy",
+    "deploy:preview": "wrangler deploy --env preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "wrangler d1 migrations apply beepd --local",
+    "db:migrate:remote": "wrangler d1 migrations apply beepd --remote",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "hono": "^4.6.0",
+    "drizzle-orm": "^0.38.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "drizzle-kit": "^0.30.0",
+    "wrangler": "^3.99.0",
+    "typescript": "^5.7.0",
+    "eslint": "^9.17.0"
+  }
+}
