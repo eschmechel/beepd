@@ -218,7 +218,6 @@ export const posts = sqliteTable('posts', {
   title: text('title').notNull(),
   excerpt: text('excerpt'),
   content: text('content').notNull(), // Stored as Markdown
-  authorId: integer('author_id').references(() => users.id),
   status: text('status', { enum: ['DRAFT', 'PUBLISHED'] }).notNull().default('DRAFT'),
   publishedAt: integer('published_at', { mode: 'timestamp_ms' }),
   createdAt: integer('created_at', { mode: 'timestamp_ms' }).notNull(),
