@@ -71,7 +71,8 @@ export async function runTest<R>(
       body: options.body ? JSON.stringify(options.body) : undefined,
     }),
     ctx.env,
-    { ...ctx, req: mockReq }
+    // cast to any to satisfy TS (ExecutionContext doesn't include our req mock)
+    { ...ctx, req: mockReq } as any
   );
 
   const body = await res.json();
