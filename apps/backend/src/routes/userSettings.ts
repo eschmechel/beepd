@@ -64,7 +64,7 @@ userSettingsRoutes.get('/', async (c) => {
   });
   if (!user) return errors.notFound(c, 'User not found');
 
-  return c.json({ out: toUserSettings(user) }, 200);
+  return c.json(toUserSettings(user), 200);
 });
 
 /**
@@ -95,5 +95,5 @@ userSettingsRoutes.put('/', async (c) => {
   });
   if (!updated) return errors.notFound(c, 'User not found');
 
-  return c.json({ out: toUserSettings(updated) }, 200);
+  return c.json(toUserSettings(updated), 200);
 });
