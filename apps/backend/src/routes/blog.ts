@@ -1,7 +1,7 @@
 // Blog routes: /blog/* (public, no auth required)
 
 import { Hono } from 'hono';
-import { eq, desc, count } from 'drizzle-orm';
+import { eq, desc, count, and } from 'drizzle-orm';
 import type { Env, Variables } from '../types/env';
 import { createDb } from '../lib/db';
 import { errors } from '../lib/errors';
@@ -71,7 +71,10 @@ blogRoutes.get('/posts/:slug', async (c) => {
 
   const db = createDb(c.env.DB);
   const post = await db.query.posts.findFirst({
-    where: eq(posts.slug, slug) && eq(posts.status, 'PUBLISHED'),
+    where: and(
+      eq(posts.slug, slug),
+      eq(posts.status, 'PUBLISHED'),
+    ),
     columns: {title: true, slug: true, content: true, createdAt: true, updatedAt: true },
   })
   if (!post) return errors.notFound(c, "Blog not found");
