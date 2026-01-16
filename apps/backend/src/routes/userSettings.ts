@@ -2,14 +2,14 @@
 
 import { Hono } from 'hono';
 import { eq } from 'drizzle-orm';
-import type { Env, Variables } from '../types/env';
-import type { UserSettings } from '../types/api';
-import type { UpdateSettingsInput } from '../validators/schemas';
-import { createDb } from '../lib/db';
-import { errors } from '../lib/errors';
-import { authMiddleware } from '../middleware/auth';
-import { updateSettingsSchema } from '../validators/schemas';
-import { users } from '../db/schema';
+import type { Env, Variables } from '@/types/env';
+import type { UserSettings } from '@/types/api';
+import type { UpdateSettingsInput } from '@/validators/schemas';
+import { updateSettingsSchema } from '@/validators/schemas';
+import { createDb } from '@/lib/db';
+import { errors } from '@/lib/errors';
+import { authMiddleware } from '@/middleware/auth';
+import { users } from '@/db/schema';
 
 export const userSettingsRoutes = new Hono<{ Bindings: Env; Variables: Variables }>();
 
