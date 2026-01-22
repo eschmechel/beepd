@@ -1,0 +1,31 @@
+{
+  "name": "beepd",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm -r dev",
+    "dev:api": "pnpm --filter @beepd/api dev",
+    "dev:web": "pnpm --filter @beepd/web dev",
+    "dev:site": "pnpm --filter @beepd/site dev",
+    "dev:mobile": "pnpm --filter @beepd/mobile dev",
+    "build": "pnpm -r build",
+    "build:api": "pnpm --filter @beepd/api build",
+    "build:web": "pnpm --filter @beepd/web build",
+    "build:site": "pnpm --filter @beepd/site build",
+    "build:mobile": "pnpm --filter @beepd/mobile build",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r --if-present test",
+    "deploy:api": "pnpm --filter @beepd/api deploy"
+  },
+  "devDependencies": {
+    "eslint": "^9.18.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3"
+  }
+}

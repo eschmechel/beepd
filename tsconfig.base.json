@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@beepd/shared": ["packages/shared/src/index.ts"],
+      "@beepd/shared/*": ["packages/shared/src/*"],
+      "@beepd/ui": ["packages/ui/src/index.ts"],
+      "@beepd/ui/*": ["packages/ui/src/*"],
+      "@beepd/ui-native": ["packages/ui-native/src/index.ts"],
+      "@beepd/ui-native/*": ["packages/ui-native/src/*"]
+    }
+  }
+}
