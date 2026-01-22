@@ -723,27 +723,81 @@ Users can gift Lifetime memberships to friends via `/v1/lifetime/gift`. CAPTCHA 
 
 ## Roadmap
 
-### V1.0 — Core (Current)
+### v0.1 — MVP (Current)
 
 - [x] Monorepo scaffold
-- [ ] Authentication system
+- [ ] Authentication: OTP (email + SMS), single identifier, link email + phone to one user
 - [ ] User & device management
-- [ ] Friendships & blocks
-- [ ] Groups with roles
-- [ ] Circle with voting
-- [ ] Location leases & nearby
-- [ ] Places & exceptions
-- [ ] Notifications with enter-only logic
-- [ ] Blog system
-- [ ] Billing integration
+- [ ] Friendships & blocks (friends-only social graph)
+- [ ] Location leases & nearby (friends-only)
+- [ ] Staging + production deployment
 
-### V1.1 — Communities
+### v0.2 — Groups
+
+- [ ] Groups with roles
+- [ ] Memberships, invites, bans
+- [ ] Group policies + effective policy evaluation
+- [ ] Circle governance (voting) (optional within v0.2)
+
+### v0.3 — Notifications
+
+- [ ] Notifications with enter-only logic
+
+### v1.0 — Public Release (Definition of Done)
+
+A **v1.0** release means the product is stable, secure, deployable, and usable end-to-end by real users.
+
+Core product (functional):
+
+- [ ] Auth is production-ready (OTP email + SMS)
+  - [ ] OTP throttling/cooldowns/attempt limits enforced
+  - [ ] Sessions + refresh rotation implemented
+  - [ ] Account linking supported (email + phone on one user)
+- [ ] Users + devices production-ready
+  - [ ] Device registration + push token updates
+  - [ ] Device/session revocation and logout
+- [ ] Friends system production-ready
+  - [ ] Request/accept/deny/remove/block/unblock
+  - [ ] Anti-enumeration responses for sensitive flows
+- [ ] Location system production-ready
+  - [ ] Lease start/extend/stop
+  - [ ] Publish endpoint with validation + sanity checks
+  - [ ] Nearby works for friends and respects policies
+- [ ] Policies production-ready
+  - [ ] Global + friend policies stored and enforced
+  - [ ] Effective policy calculation documented and tested
+
+Quality & safety (non-functional):
+
+- [ ] Observability baseline
+  - [ ] Structured logs (request id, user id when available)
+  - [ ] `/healthz` and `/readyz` are reliable
+- [ ] Security baseline
+  - [ ] Rate limiting for auth + high-risk endpoints
+  - [ ] Input validation (Zod) on all endpoints
+  - [ ] Secrets managed for local/staging/prod
+- [ ] Data layer baseline
+  - [ ] D1 schema finalized for v1.0 tables
+  - [ ] Migration workflow validated on staging and production
+  - [ ] Backfill/recovery plan for accidental deploy issues (documented)
+
+Release readiness:
+
+- [ ] CI checks are green (typecheck/lint/tests)
+- [ ] Mobile builds can point to staging and production
+- [ ] Docs updated (SPEC + CHANGELOG + MAINTAINING)
+
+### v1.1 — Places
+
+- [ ] Places & exceptions
+
+### v1.2 — Communities
 
 - [ ] Larger groups (50+ members)
 - [ ] Group heatmaps
 - [ ] Group chat (DO-backed real-time)
 
-### V2.0 — Analytics & Growth
+### v2.0 — Analytics & Growth
 
 - [ ] Encounter history & insights
 - [ ] Activity trends
@@ -772,4 +826,4 @@ Users can gift Lifetime memberships to friends via `/v1/lifetime/gift`. CAPTCHA 
 
 ---
 
-Last updated: 2026-01-21
+Last updated: 2026-01-22
