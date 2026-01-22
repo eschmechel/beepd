@@ -732,16 +732,16 @@ Users can gift Lifetime memberships to friends via `/v1/lifetime/gift`. CAPTCHA 
 - [ ] Location leases & nearby (friends-only)
 - [ ] Staging + production deployment
 
-### v0.2 — Groups
+### v0.2 — Notifications
+
+- [ ] Notifications with enter-only logic
+
+### v0.3 — Groups
 
 - [ ] Groups with roles
 - [ ] Memberships, invites, bans
 - [ ] Group policies + effective policy evaluation
-- [ ] Circle governance (voting) (optional within v0.2)
-
-### v0.3 — Notifications
-
-- [ ] Notifications with enter-only logic
+- [ ] Circle governance (voting) (optional within v0.3)
 
 ### v1.0 — Public Release (Definition of Done)
 
