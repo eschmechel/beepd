@@ -1,0 +1,14 @@
+{
+  "name": "@beepd/shared",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "echo 'lint not configured'",
+    "format": "echo 'format not configured'",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

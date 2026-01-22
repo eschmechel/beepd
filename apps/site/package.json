@@ -1,0 +1,19 @@
+{
+  "name": "@beepd/site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "echo 'lint not configured'",
+    "format": "echo 'format not configured'",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "astro": "^5.1.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

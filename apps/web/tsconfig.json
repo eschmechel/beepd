@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@beepd/shared": ["../../packages/shared/src/index.ts"],
+      "@beepd/shared/*": ["../../packages/shared/src/*"],
+      "@beepd/ui": ["../../packages/ui/src/index.ts"],
+      "@beepd/ui/*": ["../../packages/ui/src/*"]
+    }
+  },
+  "include": ["src"]
+}

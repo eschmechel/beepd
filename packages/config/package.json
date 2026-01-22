@@ -1,0 +1,9 @@
+{
+  "name": "@beepd/config",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "echo 'lint not configured'",
+    "format": "echo 'format not configured'"
+  }
+}
