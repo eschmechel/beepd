@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "expo start",
     "lint": "eslint .",
-    "format": "echo 'format not configured'",
+    "format": "prettier --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

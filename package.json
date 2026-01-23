@@ -19,6 +19,7 @@
     "build:mobile": "pnpm --filter @beepd/mobile build",
     "lint": "pnpm -r lint",
     "format": "pnpm -r format",
+    "format:check": "pnpm prettier --check .",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r --if-present test",
     "deploy:api": "pnpm --filter @beepd/api deploy"
