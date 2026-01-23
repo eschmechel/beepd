@@ -30,12 +30,12 @@ export const relationships = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
   },
-  (table) => ({
-    pairUnique: uniqueIndex('relationships_user_a_user_b_unique').on(
+  (table) => [
+    uniqueIndex('relationships_user_a_user_b_unique').on(
       table.userAId,
       table.userBId
     ),
-    userAIdx: index('relationships_user_a_id_idx').on(table.userAId),
-    userBIdx: index('relationships_user_b_id_idx').on(table.userBId),
-  })
+    index('relationships_user_a_id_idx').on(table.userAId),
+    index('relationships_user_b_id_idx').on(table.userBId),
+  ]
 );

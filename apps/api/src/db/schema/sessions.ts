@@ -30,9 +30,9 @@ export const sessions = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
   },
-  (table) => ({
-    userIdIdx: index('sessions_user_id_idx').on(table.userId),
+  (table) => [
+    index('sessions_user_id_idx').on(table.userId),
     // v0.1: one active session per device (refresh rotation updates this row).
-    deviceIdUnique: uniqueIndex('sessions_device_id_unique').on(table.deviceId),
-  })
+    uniqueIndex('sessions_device_id_unique').on(table.deviceId),
+  ]
 );

@@ -23,11 +23,11 @@ export const userIdentities = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
   },
-  (table) => ({
-    valueUnique: uniqueIndex('user_identities_type_value_unique').on(
+  (table) => [
+    uniqueIndex('user_identities_type_value_unique').on(
       table.type,
       table.value
     ),
-    userIdIdx: index('user_identities_user_id_idx').on(table.userId),
-  })
+    index('user_identities_user_id_idx').on(table.userId),
+  ]
 );

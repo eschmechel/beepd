@@ -21,10 +21,10 @@ export const otpChallenges = sqliteTable(
     // Optional: store hashed IP/user-agent for rate-limiting/abuse detection later.
     ipHash: text('ip_hash'),
   },
-  (table) => ({
-    identifierIdx: index('otp_challenges_identifier_idx').on(
+  (table) => [
+    index('otp_challenges_identifier_idx').on(
       table.identifierType,
       table.identifierValue
     ),
-  })
+  ]
 );

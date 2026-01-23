@@ -36,10 +36,12 @@ export const policies = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
   },
-  (table) => ({
-    ownerScopeTargetUnique: uniqueIndex(
-      'policies_owner_scope_target_unique'
-    ).on(table.ownerId, table.scope, table.targetId),
-    ownerIdIdx: index('policies_owner_id_idx').on(table.ownerId),
-  })
+  (table) => [
+    uniqueIndex('policies_owner_scope_target_unique').on(
+      table.ownerId,
+      table.scope,
+      table.targetId
+    ),
+    index('policies_owner_id_idx').on(table.ownerId),
+  ]
 );

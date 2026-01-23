@@ -26,15 +26,10 @@ export const devices = sqliteTable(
       .notNull()
       .default(sql`(unixepoch())`),
   },
-  (table) => ({
-    userIdIdx: index('devices_user_id_idx').on(table.userId),
+  (table) => [
+    index('devices_user_id_idx').on(table.userId),
     // Allows one primary device per user (enforce in application logic for now).
-    userPrimaryIdx: index('devices_user_is_primary_idx').on(
-      table.userId,
-      table.isPrimary
-    ),
-    pushTokenUnique: uniqueIndex('devices_push_token_unique').on(
-      table.pushToken
-    ),
-  })
+    index('devices_user_is_primary_idx').on(table.userId, table.isPrimary),
+    uniqueIndex('devices_push_token_unique').on(table.pushToken),
+  ]
 );
