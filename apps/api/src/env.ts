@@ -23,8 +23,18 @@ const envSchema = z.object({
   AUTH_REFRESH_TOKEN_ENCRYPTION_KEY: z.string().optional(),
 
   // Optional auth knobs
-  AUTH_ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().optional(),
-  AUTH_REFRESH_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().optional(),
+  AUTH_ACCESS_TOKEN_TTL_SECONDS: z.coerce
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .default(15 * 60),
+  AUTH_REFRESH_TOKEN_TTL_SECONDS: z.coerce
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .default(30 * 24 * 60 * 60),
 
   // OTP providers
   OTP_EMAIL_PROVIDER: z.string().optional(),
