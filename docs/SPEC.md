@@ -190,12 +190,36 @@ Free tier: 4 places. Plus tier: unlimited.
 -- Users & authentication
 users (
   id            UUID PRIMARY KEY,
-  phone         TEXT UNIQUE,
-  email         TEXT UNIQUE,
   display_name  TEXT NOT NULL,
   avatar_url    TEXT,
   created_at    TIMESTAMP DEFAULT NOW(),
   deleted_at    TIMESTAMP  -- soft delete
+)
+
+-- Linked identifiers (email/phone) for a single user.
+-- Identities are only created/attached after successful verification.
+user_identities (
+  id          UUID PRIMARY KEY,
+  user_id     UUID REFERENCES users(id),
+  type        TEXT CHECK (type IN ('email', 'phone')),
+  value       TEXT NOT NULL, -- normalized (email: trim+lowercase, phone: E.164)
+  verified_at TIMESTAMP,
+  created_at  TIMESTAMP DEFAULT NOW(),
+  UNIQUE(type, value)
+)
+
+-- OTP challenges (never store OTP code plaintext)
+otp_challenges (
+  id                  UUID PRIMARY KEY,
+  identifier_type     TEXT CHECK (identifier_type IN ('email', 'phone')),
+  identifier_value    TEXT NOT NULL, -- normalized
+  purpose             TEXT CHECK (purpose IN ('login', 'link')),
+  code_hash           TEXT NOT NULL,
+  attempt_count       INTEGER DEFAULT 0,
+  resend_available_at TIMESTAMP NOT NULL,
+  expires_at          TIMESTAMP NOT NULL,
+  consumed_at         TIMESTAMP,
+  created_at          TIMESTAMP DEFAULT NOW()
 )
 
 devices (
@@ -212,8 +236,10 @@ sessions (
   user_id             UUID REFERENCES users(id),
   device_id           UUID REFERENCES devices(id),
   refresh_token_hash  TEXT NOT NULL,
+  updated_at          TIMESTAMP DEFAULT NOW(),
   expires_at          TIMESTAMP NOT NULL,
-  revoked_at          TIMESTAMP
+  revoked_at          TIMESTAMP,
+  UNIQUE(device_id) -- v0.1: one session per device
 )
 
 -- Relationships
@@ -224,7 +250,7 @@ relationships (
   status        TEXT CHECK (status IN ('pending', 'accepted', 'blocked_by_a', 'blocked_by_b')),
   initiated_by  UUID REFERENCES users(id),
   created_at    TIMESTAMP DEFAULT NOW(),
-  UNIQUE(user_a_id, user_b_id)
+  UNIQUE(user_a_id, user_b_id) -- one row per unordered pair
 )
 
 -- Groups & memberships

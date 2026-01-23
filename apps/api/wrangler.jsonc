@@ -1,8 +1,17 @@
 {
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "beepd-api",
   "main": "src/index.ts",
   "compatibility_date": "2025-03-07",
   "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "beepd-db",
+      "database_id": "REPLACE_ME_AFTER_WRANGLER_D1_CREATE",
+      "migrations_dir": "drizzle"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1

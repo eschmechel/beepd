@@ -4,11 +4,13 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "lint": "echo 'lint not configured'",
+    "lint": "eslint .",
     "format": "echo 'format not configured'",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
+    "@beepd/config": "workspace:*",
+    "eslint": "^9.18.0",
     "typescript": "^5.7.3"
   }
 }

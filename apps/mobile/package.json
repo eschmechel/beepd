@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "expo start",
-    "lint": "echo 'lint not configured'",
+    "lint": "eslint .",
     "format": "echo 'format not configured'",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -15,7 +15,9 @@
     "react-native": "^0.76.3"
   },
   "devDependencies": {
+    "@beepd/config": "workspace:*",
     "@types/react": "^18.3.12",
+    "eslint": "^9.18.0",
     "typescript": "^5.7.3"
   }
 }

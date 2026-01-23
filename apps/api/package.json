@@ -5,17 +5,24 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "lint": "echo 'lint not configured'",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply beepd-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply beepd-db --remote",
+    "lint": "eslint .",
     "format": "echo 'format not configured'",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "drizzle-orm": "^0.44.4",
     "hono": "^4.6.5",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@beepd/config": "workspace:*",
     "@cloudflare/workers-types": "^4.20250121.0",
     "@types/node": "^22.10.2",
+    "drizzle-kit": "^0.31.5",
+    "eslint": "^9.18.0",
     "typescript": "^5.7.3",
     "wrangler": "^4.6.0"
   }
