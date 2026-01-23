@@ -12,5 +12,5 @@
       "@beepd/ui-native/*": ["../../packages/ui-native/src/*"]
     }
   },
-  "include": ["src", "*.ts", "*.tsx"]
+  "include": ["src", "*.ts", "*.tsx", "*.js", "eslint.config.js", "index.js"]
 }
