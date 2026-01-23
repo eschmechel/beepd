@@ -27,17 +27,17 @@ pnpm dev
 
 ## Project Structure
 
-| Path | Description |
-| ---- | ----------- |
-| `apps/api` | Cloudflare Workers API — routes, middleware, D1 schema |
-| `apps/web` | Vite React app — pages, components, hooks |
-| `apps/site` | Astro marketing site — pages, blog content |
-| `apps/mobile` | Expo app — screens, navigation, native modules |
-| `packages/ui` | Web component library (shadcn/ui based) |
-| `packages/ui-native` | React Native component library |
-| `packages/shared` | Shared types, Zod schemas, API client |
-| `packages/config` | ESLint, TypeScript, Tailwind, Prettier configs |
-| `docs/` | Technical specification and changelog |
+| Path                 | Description                                            |
+| -------------------- | ------------------------------------------------------ |
+| `apps/api`           | Cloudflare Workers API — routes, middleware, D1 schema |
+| `apps/web`           | Vite React app — pages, components, hooks              |
+| `apps/site`          | Astro marketing site — pages, blog content             |
+| `apps/mobile`        | Expo app — screens, navigation, native modules         |
+| `packages/ui`        | Web component library (shadcn/ui based)                |
+| `packages/ui-native` | React Native component library                         |
+| `packages/shared`    | Shared types, Zod schemas, API client                  |
+| `packages/config`    | ESLint, TypeScript, Tailwind, Prettier configs         |
+| `docs/`              | Technical specification and changelog                  |
 
 ## Code Standards
 
@@ -124,13 +124,13 @@ eas submit --platform all
 
 ## Branching Strategy
 
-| Branch | Purpose |
-| ------ | ------- |
-| `main` | Production-ready code |
-| `develop` | Integration branch for features |
-| `feature/*` | New features |
-| `fix/*` | Bug fixes |
-| `release/*` | Release preparation |
+| Branch      | Purpose                         |
+| ----------- | ------------------------------- |
+| `main`      | Production-ready code           |
+| `develop`   | Integration branch for features |
+| `feature/*` | New features                    |
+| `fix/*`     | Bug fixes                       |
+| `release/*` | Release preparation             |
 
 ## Pull Request Process
 

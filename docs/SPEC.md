@@ -28,11 +28,11 @@
 
 ### Domains
 
-| Domain | Purpose |
-|--------|---------|
+| Domain           | Purpose                                      |
+| ---------------- | -------------------------------------------- |
 | `api.beepd.tech` | Critical API, health checks, admin endpoints |
-| `beepd.app` | Marketing site and blog |
-| `app.beepd.app` | Web application |
+| `beepd.app`      | Marketing site and blog                      |
+| `app.beepd.app`  | Web application                              |
 
 ### Key Principles
 
@@ -47,10 +47,10 @@
 
 ### Visibility & Proximity Radii
 
-| Radius | Abbreviation | Default | Range | Description |
-|--------|--------------|---------|-------|-------------|
-| Visibility Precision Radius | VPR | 250m | 50m–1km | Distance within which your exact location is visible |
-| Proximity Enter Radius | PER | 100m | 50m–VPR | Distance that triggers an enter notification |
+| Radius                      | Abbreviation | Default | Range   | Description                                          |
+| --------------------------- | ------------ | ------- | ------- | ---------------------------------------------------- |
+| Visibility Precision Radius | VPR          | 250m    | 50m–1km | Distance within which your exact location is visible |
+| Proximity Enter Radius      | PER          | 100m    | 50m–VPR | Distance that triggers an enter notification         |
 
 **Effective PER** = `min(viewer.PER, target.PER, effective.VPR)`
 
@@ -93,12 +93,12 @@ Free tier: 4 places. Plus tier: unlimited.
 
 ### Groups vs Circle
 
-| Feature | Groups | Circle |
-|---------|--------|--------|
-| Max members | 50 (communities in v1.1 expand this) | 5 |
-| Governance | Owner/admin hierarchy | Majority vote (kick/ban/invite) |
-| Use case | Friend groups, teams | Family, close friends with equal control |
-| Billing | Group Plan (5 seats shared) | Part of group plan |
+| Feature     | Groups                               | Circle                                   |
+| ----------- | ------------------------------------ | ---------------------------------------- |
+| Max members | 50 (communities in v1.1 expand this) | 5                                        |
+| Governance  | Owner/admin hierarchy                | Majority vote (kick/ban/invite)          |
+| Use case    | Friend groups, teams                 | Family, close friends with equal control |
+| Billing     | Group Plan (5 seats shared)          | Part of group plan                       |
 
 ---
 
@@ -123,20 +123,20 @@ Free tier: 4 places. Plus tier: unlimited.
 
 ### Durable Objects
 
-| DO Class | Key Pattern | Purpose |
-|----------|-------------|---------|
-| `UserStateDO` | `user:{userId}` | Active lease, last-known location, publish state |
+| DO Class      | Key Pattern            | Purpose                                                      |
+| ------------- | ---------------------- | ------------------------------------------------------------ |
+| `UserStateDO` | `user:{userId}`        | Active lease, last-known location, publish state             |
 | `PairStateDO` | `pair:{sortedUserIds}` | Re-entry gate (15m cooldown), snooze state, refresh cooldown |
 
 ### Storage Strategy
 
-| Store | Use Case |
-|-------|----------|
-| **D1** | Users, devices, sessions, relationships, groups, policies, places, calendars, entitlements |
-| **DO** | Real-time lease state, pairwise proximity tracking |
-| **KV** | Feature flags, configuration, rate limit counters |
-| **R2** | Blog markdown content, user data exports |
-| **Queues** | Async jobs: push notifications, export generation, audit logging |
+| Store      | Use Case                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| **D1**     | Users, devices, sessions, relationships, groups, policies, places, calendars, entitlements |
+| **DO**     | Real-time lease state, pairwise proximity tracking                                         |
+| **KV**     | Feature flags, configuration, rate limit counters                                          |
+| **R2**     | Blog markdown content, user data exports                                                   |
+| **Queues** | Async jobs: push notifications, export generation, audit logging                           |
 
 ---
 
@@ -144,41 +144,41 @@ Free tier: 4 places. Plus tier: unlimited.
 
 ### Backend
 
-| Layer | Technology |
-|-------|------------|
-| Runtime | Cloudflare Workers |
-| Framework | Hono (lightweight, edge-native) |
-| ORM | Drizzle (type-safe, D1-compatible) |
-| Validation | Zod (runtime + static types) |
-| Bundler | Wrangler (Workers toolchain) |
+| Layer      | Technology                         |
+| ---------- | ---------------------------------- |
+| Runtime    | Cloudflare Workers                 |
+| Framework  | Hono (lightweight, edge-native)    |
+| ORM        | Drizzle (type-safe, D1-compatible) |
+| Validation | Zod (runtime + static types)       |
+| Bundler    | Wrangler (Workers toolchain)       |
 
 ### Frontend — Web App
 
-| Layer | Technology |
-|-------|------------|
-| Build | Vite |
-| Framework | React 18 |
-| Styling | Tailwind CSS |
-| Components | shadcn/ui + Radix UI primitives |
-| Animation | Framer Motion, animate-ui, Magic UI |
-| Maps | MapLibre GL + MapTiler / OSM tiles |
+| Layer      | Technology                          |
+| ---------- | ----------------------------------- |
+| Build      | Vite                                |
+| Framework  | React 18                            |
+| Styling    | Tailwind CSS                        |
+| Components | shadcn/ui + Radix UI primitives     |
+| Animation  | Framer Motion, animate-ui, Magic UI |
+| Maps       | MapLibre GL + MapTiler / OSM tiles  |
 
 ### Frontend — Marketing Site
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Astro (SSR/SSG for SEO) |
-| Styling | Tailwind CSS |
-| Content | Markdown in R2 (dynamic blog) |
+| Layer     | Technology                    |
+| --------- | ----------------------------- |
+| Framework | Astro (SSR/SSG for SEO)       |
+| Styling   | Tailwind CSS                  |
+| Content   | Markdown in R2 (dynamic blog) |
 
 ### Mobile
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Expo (React Native) |
-| Build | EAS Build + Submit |
+| Layer       | Technology                                                     |
+| ----------- | -------------------------------------------------------------- |
+| Framework   | Expo (React Native)                                            |
+| Build       | EAS Build + Submit                                             |
 | Permissions | expo-location, expo-calendar, expo-sensors, expo-notifications |
-| Maps | react-native-maplibre-gl |
+| Maps        | react-native-maplibre-gl                                       |
 
 ---
 
@@ -418,174 +418,174 @@ All versioned endpoints use prefix `/v1`. Health and admin endpoints are unversi
 
 ### Health & Admin
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/healthz` | Liveness probe (returns 200 if worker alive) |
-| GET | `/readyz` | Readiness probe (checks D1, DO connectivity) |
-| GET | `/metrics` | Prometheus-format metrics |
-| GET | `/admin` | Admin dashboard entry |
-| GET | `/admin/logs` | Query observability logs |
-| GET | `/admin/feature-flags` | List feature flags |
-| PUT | `/admin/feature-flags` | Update feature flags |
-| POST | `/admin/cache/invalidate` | Invalidate KV cache entries |
-| POST | `/admin/jobs/replay` | Replay failed queue jobs |
+| Method | Path                      | Description                                  |
+| ------ | ------------------------- | -------------------------------------------- |
+| GET    | `/healthz`                | Liveness probe (returns 200 if worker alive) |
+| GET    | `/readyz`                 | Readiness probe (checks D1, DO connectivity) |
+| GET    | `/metrics`                | Prometheus-format metrics                    |
+| GET    | `/admin`                  | Admin dashboard entry                        |
+| GET    | `/admin/logs`             | Query observability logs                     |
+| GET    | `/admin/feature-flags`    | List feature flags                           |
+| PUT    | `/admin/feature-flags`    | Update feature flags                         |
+| POST   | `/admin/cache/invalidate` | Invalidate KV cache entries                  |
+| POST   | `/admin/jobs/replay`      | Replay failed queue jobs                     |
 
 ### Authentication
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/auth/start` | Start passwordless auth (email/phone/OAuth) |
-| POST | `/v1/auth/verify` | Verify OTP or OAuth callback |
-| POST | `/v1/auth/refresh` | Exchange refresh token for new access token |
-| POST | `/v1/auth/logout` | Revoke current session |
-| GET | `/v1/auth/me` | Get current user + session info |
+| Method | Path               | Description                                 |
+| ------ | ------------------ | ------------------------------------------- |
+| POST   | `/v1/auth/start`   | Start passwordless auth (email/phone/OAuth) |
+| POST   | `/v1/auth/verify`  | Verify OTP or OAuth callback                |
+| POST   | `/v1/auth/refresh` | Exchange refresh token for new access token |
+| POST   | `/v1/auth/logout`  | Revoke current session                      |
+| GET    | `/v1/auth/me`      | Get current user + session info             |
 
 ### Users & Devices
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/v1/users/:id` | Get public profile |
-| PUT | `/v1/users/me` | Update own profile |
-| GET | `/v1/devices` | List own devices |
-| PUT | `/v1/devices/:id/primary` | Set device as primary |
-| PUT | `/v1/devices/push-token` | Update push token for current device |
+| Method | Path                      | Description                          |
+| ------ | ------------------------- | ------------------------------------ |
+| GET    | `/v1/users/:id`           | Get public profile                   |
+| PUT    | `/v1/users/me`            | Update own profile                   |
+| GET    | `/v1/devices`             | List own devices                     |
+| PUT    | `/v1/devices/:id/primary` | Set device as primary                |
+| PUT    | `/v1/devices/push-token`  | Update push token for current device |
 
 ### Friends
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/friends/request` | Send friend request |
-| POST | `/v1/friends/accept` | Accept pending request |
-| POST | `/v1/friends/deny` | Deny pending request |
-| POST | `/v1/friends/remove` | Remove existing friend |
-| POST | `/v1/friends/block` | Block user |
-| POST | `/v1/friends/unblock` | Unblock user |
-| GET | `/v1/friends` | List friends |
-| GET | `/v1/friends/requests` | List pending requests (incoming + outgoing) |
+| Method | Path                   | Description                                 |
+| ------ | ---------------------- | ------------------------------------------- |
+| POST   | `/v1/friends/request`  | Send friend request                         |
+| POST   | `/v1/friends/accept`   | Accept pending request                      |
+| POST   | `/v1/friends/deny`     | Deny pending request                        |
+| POST   | `/v1/friends/remove`   | Remove existing friend                      |
+| POST   | `/v1/friends/block`    | Block user                                  |
+| POST   | `/v1/friends/unblock`  | Unblock user                                |
+| GET    | `/v1/friends`          | List friends                                |
+| GET    | `/v1/friends/requests` | List pending requests (incoming + outgoing) |
 
 ### Groups
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/groups` | Create group |
-| GET | `/v1/groups` | List own groups |
-| GET | `/v1/groups/:id` | Get group details |
-| PUT | `/v1/groups/:id` | Update group (name, avatar) |
-| POST | `/v1/groups/:id/invite` | Invite user to group |
-| POST | `/v1/groups/:id/invite/accept` | Accept group invite |
-| POST | `/v1/groups/:id/invite/deny` | Deny group invite |
-| POST | `/v1/groups/:id/kick` | Kick member (admin+) |
-| POST | `/v1/groups/:id/ban` | Ban user from group |
-| POST | `/v1/groups/:id/unban` | Unban user |
-| GET | `/v1/groups/:id/members` | List members with roles |
-| PUT | `/v1/groups/:id/role` | Change member role |
+| Method | Path                           | Description                 |
+| ------ | ------------------------------ | --------------------------- |
+| POST   | `/v1/groups`                   | Create group                |
+| GET    | `/v1/groups`                   | List own groups             |
+| GET    | `/v1/groups/:id`               | Get group details           |
+| PUT    | `/v1/groups/:id`               | Update group (name, avatar) |
+| POST   | `/v1/groups/:id/invite`        | Invite user to group        |
+| POST   | `/v1/groups/:id/invite/accept` | Accept group invite         |
+| POST   | `/v1/groups/:id/invite/deny`   | Deny group invite           |
+| POST   | `/v1/groups/:id/kick`          | Kick member (admin+)        |
+| POST   | `/v1/groups/:id/ban`           | Ban user from group         |
+| POST   | `/v1/groups/:id/unban`         | Unban user                  |
+| GET    | `/v1/groups/:id/members`       | List members with roles     |
+| PUT    | `/v1/groups/:id/role`          | Change member role          |
 
 ### Circle (Governed Group)
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/v1/circle` | Get user's circle (if any) |
-| POST | `/v1/circle/invite` | Propose invite (starts vote) |
-| POST | `/v1/circle/invite/accept` | Accept invite |
-| POST | `/v1/circle/invite/deny` | Deny invite |
-| POST | `/v1/circle/kick` | Propose kick (starts vote) |
-| POST | `/v1/circle/ban` | Propose ban (starts vote) |
-| POST | `/v1/circle/unban` | Propose unban (starts vote) |
-| GET | `/v1/circle/votes` | List active votes |
-| POST | `/v1/circle/votes/:id/cast` | Cast vote (approve/reject) |
+| Method | Path                        | Description                  |
+| ------ | --------------------------- | ---------------------------- |
+| GET    | `/v1/circle`                | Get user's circle (if any)   |
+| POST   | `/v1/circle/invite`         | Propose invite (starts vote) |
+| POST   | `/v1/circle/invite/accept`  | Accept invite                |
+| POST   | `/v1/circle/invite/deny`    | Deny invite                  |
+| POST   | `/v1/circle/kick`           | Propose kick (starts vote)   |
+| POST   | `/v1/circle/ban`            | Propose ban (starts vote)    |
+| POST   | `/v1/circle/unban`          | Propose unban (starts vote)  |
+| GET    | `/v1/circle/votes`          | List active votes            |
+| POST   | `/v1/circle/votes/:id/cast` | Cast vote (approve/reject)   |
 
 ### Policies
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/v1/policies` | List all own policies |
-| PUT | `/v1/policies/global` | Update global defaults |
-| PUT | `/v1/policies/friend/:id` | Set friend-specific policy |
-| PUT | `/v1/policies/group/:id` | Set group-specific policy |
-| PUT | `/v1/policies/group/:id/override` | Override to exclude from "most permissive" |
-| GET | `/v1/policies/effective/:viewerId` | Compute effective policy for viewer |
+| Method | Path                               | Description                                |
+| ------ | ---------------------------------- | ------------------------------------------ |
+| GET    | `/v1/policies`                     | List all own policies                      |
+| PUT    | `/v1/policies/global`              | Update global defaults                     |
+| PUT    | `/v1/policies/friend/:id`          | Set friend-specific policy                 |
+| PUT    | `/v1/policies/group/:id`           | Set group-specific policy                  |
+| PUT    | `/v1/policies/group/:id/override`  | Override to exclude from "most permissive" |
+| GET    | `/v1/policies/effective/:viewerId` | Compute effective policy for viewer        |
 
 ### Location & Nearby
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/location/lease` | Start or extend sharing lease |
-| POST | `/v1/location/publish` | Push location update |
-| GET | `/v1/location/self` | Get own current location state |
-| GET | `/v1/nearby` | Get nearby friends/group-mates within VPR |
-| GET | `/v1/nearby/overlay` | Get coarse H3 overlay with density |
-| POST | `/v1/nearby/cell` | Get members in a specific H3 cell |
+| Method | Path                   | Description                               |
+| ------ | ---------------------- | ----------------------------------------- |
+| POST   | `/v1/location/lease`   | Start or extend sharing lease             |
+| POST   | `/v1/location/publish` | Push location update                      |
+| GET    | `/v1/location/self`    | Get own current location state            |
+| GET    | `/v1/nearby`           | Get nearby friends/group-mates within VPR |
+| GET    | `/v1/nearby/overlay`   | Get coarse H3 overlay with density        |
+| POST   | `/v1/nearby/cell`      | Get members in a specific H3 cell         |
 
 ### Notifications
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/v1/notifs/prefs` | Get notification preferences |
-| PUT | `/v1/notifs/prefs` | Update notification preferences |
-| POST | `/v1/notifs/snooze` | Snooze notifications for user/time |
-| GET | `/v1/encounters` | List recent encounter events |
-| POST | `/v1/notifs/test` | Send test push notification |
+| Method | Path                | Description                        |
+| ------ | ------------------- | ---------------------------------- |
+| GET    | `/v1/notifs/prefs`  | Get notification preferences       |
+| PUT    | `/v1/notifs/prefs`  | Update notification preferences    |
+| POST   | `/v1/notifs/snooze` | Snooze notifications for user/time |
+| GET    | `/v1/encounters`    | List recent encounter events       |
+| POST   | `/v1/notifs/test`   | Send test push notification        |
 
 ### Places (API)
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/v1/places` | List own places |
-| POST | `/v1/places` | Create place |
-| PUT | `/v1/places/:id` | Update place |
-| DELETE | `/v1/places/:id` | Delete place |
-| PUT | `/v1/places/:id/exceptions` | Set per-user/group exceptions |
-| PUT | `/v1/places/:id/share-label` | Toggle label sharing |
+| Method | Path                         | Description                   |
+| ------ | ---------------------------- | ----------------------------- |
+| GET    | `/v1/places`                 | List own places               |
+| POST   | `/v1/places`                 | Create place                  |
+| PUT    | `/v1/places/:id`             | Update place                  |
+| DELETE | `/v1/places/:id`             | Delete place                  |
+| PUT    | `/v1/places/:id/exceptions`  | Set per-user/group exceptions |
+| PUT    | `/v1/places/:id/share-label` | Toggle label sharing          |
 
 ### Calendars
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/cal/connect/:provider` | Start calendar OAuth |
-| POST | `/v1/cal/disconnect/:provider` | Disconnect calendar |
-| GET | `/v1/cal/calendars` | List connected calendars |
-| PUT | `/v1/cal/selected` | Select which calendars affect busy status |
-| PUT | `/v1/cal/busy/custom` | Create/update custom busy windows |
+| Method | Path                           | Description                               |
+| ------ | ------------------------------ | ----------------------------------------- |
+| POST   | `/v1/cal/connect/:provider`    | Start calendar OAuth                      |
+| POST   | `/v1/cal/disconnect/:provider` | Disconnect calendar                       |
+| GET    | `/v1/cal/calendars`            | List connected calendars                  |
+| PUT    | `/v1/cal/selected`             | Select which calendars affect busy status |
+| PUT    | `/v1/cal/busy/custom`          | Create/update custom busy windows         |
 
 ### Entitlements & Billing
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/v1/entitlements` | Get current entitlements |
-| POST | `/v1/billing/checkout` | Create Stripe checkout session |
-| POST | `/v1/billing/webhook` | Stripe webhook handler |
-| POST | `/v1/grants/student` | Apply for student grant |
-| POST | `/v1/grants/low-income` | Apply for low-income grant |
-| POST | `/v1/lifetime/gift` | Gift lifetime membership |
+| Method | Path                    | Description                    |
+| ------ | ----------------------- | ------------------------------ |
+| GET    | `/v1/entitlements`      | Get current entitlements       |
+| POST   | `/v1/billing/checkout`  | Create Stripe checkout session |
+| POST   | `/v1/billing/webhook`   | Stripe webhook handler         |
+| POST   | `/v1/grants/student`    | Apply for student grant        |
+| POST   | `/v1/grants/low-income` | Apply for low-income grant     |
+| POST   | `/v1/lifetime/gift`     | Gift lifetime membership       |
 
 ### Debug & Export
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/debug/export` | Request full data export (DSAR) |
-| GET | `/v1/debug/export/:id` | Download export when ready |
+| Method | Path                   | Description                     |
+| ------ | ---------------------- | ------------------------------- |
+| POST   | `/v1/debug/export`     | Request full data export (DSAR) |
+| GET    | `/v1/debug/export/:id` | Download export when ready      |
 
 ### Blog (Public)
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/blog` | List published posts |
-| GET | `/blog/:slug` | Get post content |
-| GET | `/blog/:slug/meta` | Get post metadata only |
+| Method | Path               | Description            |
+| ------ | ------------------ | ---------------------- |
+| GET    | `/blog`            | List published posts   |
+| GET    | `/blog/:slug`      | Get post content       |
+| GET    | `/blog/:slug/meta` | Get post metadata only |
 
 ### Blog Admin
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/admin/blog` | Create published post |
-| PUT | `/admin/blog/:slug` | Update published post |
-| DELETE | `/admin/blog/:slug` | Delete post |
-| POST | `/admin/blog/draft` | Upload draft |
-| PUT | `/admin/blog/draft/:id` | Update draft |
-| DELETE | `/admin/blog/draft/:id` | Delete draft |
-| GET | `/admin/blog/drafts` | List drafts |
-| GET | `/admin/blog/draft/:id/preview` | Preview rendered draft |
-| POST | `/admin/blog/draft/:id/publish` | Publish draft |
+| Method | Path                            | Description            |
+| ------ | ------------------------------- | ---------------------- |
+| POST   | `/admin/blog`                   | Create published post  |
+| PUT    | `/admin/blog/:slug`             | Update published post  |
+| DELETE | `/admin/blog/:slug`             | Delete post            |
+| POST   | `/admin/blog/draft`             | Upload draft           |
+| PUT    | `/admin/blog/draft/:id`         | Update draft           |
+| DELETE | `/admin/blog/draft/:id`         | Delete draft           |
+| GET    | `/admin/blog/drafts`            | List drafts            |
+| GET    | `/admin/blog/draft/:id/preview` | Preview rendered draft |
+| POST   | `/admin/blog/draft/:id/publish` | Publish draft          |
 
 ---
 
@@ -593,10 +593,10 @@ All versioned endpoints use prefix `/v1`. Health and admin endpoints are unversi
 
 ### Token Strategy
 
-| Token | Format | Lifetime | Storage |
-|-------|--------|----------|---------|
-| Access | JWS (signed JWT) | 15 minutes | Memory only |
-| Refresh | JWE (encrypted JWT) | 30 days | HttpOnly cookie + D1 hash |
+| Token   | Format              | Lifetime   | Storage                   |
+| ------- | ------------------- | ---------- | ------------------------- |
+| Access  | JWS (signed JWT)    | 15 minutes | Memory only               |
+| Refresh | JWE (encrypted JWT) | 30 days    | HttpOnly cookie + D1 hash |
 
 **Refresh rotation**: Each refresh issues a new token and invalidates the old one. Reuse of old token revokes entire session (potential theft).
 
@@ -610,15 +610,15 @@ All versioned endpoints use prefix `/v1`. Health and admin endpoints are unversi
 
 ### Security Measures
 
-| Measure | Implementation |
-|---------|----------------|
-| Rate limiting | Per-IP and per-account limits via KV counters |
-| Input validation | All inputs validated with Zod schemas |
+| Measure          | Implementation                                 |
+| ---------------- | ---------------------------------------------- |
+| Rate limiting    | Per-IP and per-account limits via KV counters  |
+| Input validation | All inputs validated with Zod schemas          |
 | Anti-enumeration | Generic responses for friend requests, invites |
-| CAPTCHA | Required after repeated gifting attempts |
-| Idempotency | Mutation endpoints accept idempotency keys |
-| Audit logging | Role changes and admin actions logged to queue |
-| HTTPS only | Enforced at Cloudflare edge |
+| CAPTCHA          | Required after repeated gifting attempts       |
+| Idempotency      | Mutation endpoints accept idempotency keys     |
+| Audit logging    | Role changes and admin actions logged to queue |
+| HTTPS only       | Enforced at Cloudflare edge                    |
 
 ### Abuse Prevention
 
@@ -673,14 +673,14 @@ All versioned endpoints use prefix `/v1`. Health and admin endpoints are unversi
 
 **Theme**: Foresty/bee/hive aesthetic — natural, warm, trustworthy
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| Honey | `#F4C542` | Primary accent, CTAs |
-| Forest | `#1F4D3B` | Primary text, headers |
-| Hive | `#6B4E3D` | Secondary accent, icons |
-| Pollen | `#FFF3C4` | Backgrounds, highlights |
-| Midnight | `#0B1F17` | Dark mode background |
-| Cream | `#FFFDF5` | Light mode background |
+| Token    | Value     | Usage                   |
+| -------- | --------- | ----------------------- |
+| Honey    | `#F4C542` | Primary accent, CTAs    |
+| Forest   | `#1F4D3B` | Primary text, headers   |
+| Hive     | `#6B4E3D` | Secondary accent, icons |
+| Pollen   | `#FFF3C4` | Backgrounds, highlights |
+| Midnight | `#0B1F17` | Dark mode background    |
+| Cream    | `#FFFDF5` | Light mode background   |
 
 ### Component Library
 
@@ -700,15 +700,15 @@ Animation via **Framer Motion** and **Magic UI** for:
 
 ### Key Screens
 
-| Screen | Description |
-|--------|-------------|
-| Home (Map) | MapLibre view with nearby pins, overlay toggle, compass button |
-| Nearby List | Scrollable list sorted by distance, tap for detail sheet |
-| Detail Sheet | User info, snooze, policy quick-edit, directions link |
-| Friends | List with pending requests, search, add |
-| Groups | List of groups with member counts, create/manage |
-| Places | List of saved places, create/edit with map picker |
-| Settings | Profile, policies, calendars, notifications, billing |
+| Screen       | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| Home (Map)   | MapLibre view with nearby pins, overlay toggle, compass button |
+| Nearby List  | Scrollable list sorted by distance, tap for detail sheet       |
+| Detail Sheet | User info, snooze, policy quick-edit, directions link          |
+| Friends      | List with pending requests, search, add                        |
+| Groups       | List of groups with member counts, create/manage               |
+| Places       | List of saved places, create/edit with map picker              |
+| Settings     | Profile, policies, calendars, notifications, billing           |
 
 ### Accessibility
 
@@ -723,19 +723,19 @@ Animation via **Framer Motion** and **Magic UI** for:
 
 ### Tiers
 
-| Tier | Price | Features |
-|------|-------|----------|
-| Free | $0 | 4 places, 1 group, standard VPR/PER |
-| Plus | $1.99/mo or $10/yr | Unlimited places, groups, custom VPR/PER, priority support |
-| Group Plan | $6/mo or $20/yr | 5 Plus seats, shared billing, Circle feature |
-| Lifetime | $25 (intro $22) | Permanent Plus access |
+| Tier       | Price              | Features                                                   |
+| ---------- | ------------------ | ---------------------------------------------------------- |
+| Free       | $0                 | 4 places, 1 group, standard VPR/PER                        |
+| Plus       | $1.99/mo or $10/yr | Unlimited places, groups, custom VPR/PER, priority support |
+| Group Plan | $6/mo or $20/yr    | 5 Plus seats, shared billing, Circle feature               |
+| Lifetime   | $25 (intro $22)    | Permanent Plus access                                      |
 
 ### Grants
 
-| Grant | Duration | Eligibility |
-|-------|----------|-------------|
-| Student | 12 months (renewable) | Valid .edu email or student ID verification |
-| Low-income | 6 months (renewable) | Self-declared, no verification |
+| Grant      | Duration              | Eligibility                                 |
+| ---------- | --------------------- | ------------------------------------------- |
+| Student    | 12 months (renewable) | Valid .edu email or student ID verification |
+| Low-income | 6 months (renewable)  | Self-declared, no verification              |
 
 ### Loyalty Program
 

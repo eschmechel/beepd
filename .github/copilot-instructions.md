@@ -43,4 +43,3 @@ pnpm test         # Run tests
 - Add Zod schemas for all API inputs/outputs
 - Keep components small and composable
 - Prefer server-side logic in Workers over client-side
-

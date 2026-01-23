@@ -49,21 +49,21 @@ beepd/
 
 ## Domains
 
-| Domain | Purpose |
-| ------ | ------- |
+| Domain           | Purpose                   |
+| ---------------- | ------------------------- |
 | `api.beepd.tech` | API, health checks, admin |
-| `beepd.app` | Marketing site, blog |
-| `app.beepd.app` | Web application |
+| `beepd.app`      | Marketing site, blog      |
+| `app.beepd.app`  | Web application           |
 
 ## Tech Stack
 
-| Layer | Technology |
-| ----- | ---------- |
-| Backend | Cloudflare Workers, Hono, Drizzle, D1, DO, R2, KV |
-| Web | Vite, React, Tailwind, shadcn/ui, Radix, Framer Motion |
-| Site | Astro, Tailwind |
-| Mobile | Expo, React Native, MapLibre |
-| Maps | MapLibre GL, MapTiler / OpenStreetMap |
+| Layer   | Technology                                             |
+| ------- | ------------------------------------------------------ |
+| Backend | Cloudflare Workers, Hono, Drizzle, D1, DO, R2, KV      |
+| Web     | Vite, React, Tailwind, shadcn/ui, Radix, Framer Motion |
+| Site    | Astro, Tailwind                                        |
+| Mobile  | Expo, React Native, MapLibre                           |
+| Maps    | MapLibre GL, MapTiler / OpenStreetMap                  |
 
 ## Documentation
 
