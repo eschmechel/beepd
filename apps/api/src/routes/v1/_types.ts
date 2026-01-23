@@ -9,6 +9,11 @@ export type AppEnv = {
   Variables: {
     // Filled by env middleware in src/index.ts
     env: Env;
+
+    // Filled by auth middleware when present
+    userId?: string;
+    sessionId?: string;
+    deviceId?: string;
   };
 };
 
