@@ -1,21 +1,24 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const envSchema = z.object({
   //Enviroment Variables
-  APP_ENV: z.enum(["dev", "staging", "prod"]).default("dev"),
+  APP_ENV: z.enum(['dev', 'staging', 'prod']).default('dev'),
   CORS_ALLOWED_ORIGINS: z
     .string()
     .optional()
-    .default("")
+    .default('')
     .transform((value) =>
       value
-        .split(",")
+        .split(',')
         .map((s) => s.trim())
-        .filter(Boolean),
+        .filter(Boolean)
     ),
-  LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).optional().default("info"),
+  LOG_LEVEL: z
+    .enum(['debug', 'info', 'warn', 'error'])
+    .optional()
+    .default('info'),
 
-  // Auth/session secrets 
+  // Auth/session secrets
   AUTH_JWT_SIGNING_SECRET: z.string().optional(),
   AUTH_REFRESH_TOKEN_ENCRYPTION_KEY: z.string().optional(),
 
@@ -23,13 +26,23 @@ const envSchema = z.object({
   AUTH_ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().optional(),
   AUTH_REFRESH_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().optional(),
 
-  // OTP providers 
+  // OTP providers
   OTP_EMAIL_PROVIDER: z.string().optional(),
   OTP_SMS_PROVIDER: z.string().optional(),
 
   // Optional OTP knobs
-  OTP_CODE_TTL_SECONDS: z.coerce.number().int().positive().optional().default(300),
-  OTP_RESEND_COOLDOWN_SECONDS: z.coerce.number().int().positive().optional().default(30),
+  OTP_CODE_TTL_SECONDS: z.coerce
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .default(300),
+  OTP_RESEND_COOLDOWN_SECONDS: z.coerce
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .default(30),
   OTP_MAX_VERIFY_ATTEMPTS: z.coerce.number().int().min(1).optional().default(5),
 
   // Example provider secrets
