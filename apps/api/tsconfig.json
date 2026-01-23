@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["@cloudflare/workers-types"],
+    "types": ["@cloudflare/workers-types", "node"],
     "moduleResolution": "Bundler",
     "noEmit": true,
     "baseUrl": ".",
@@ -11,5 +11,5 @@
       "@beepd/shared/*": ["../../packages/shared/src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "*.ts", "*.config.ts", "*.config.js"]
 }

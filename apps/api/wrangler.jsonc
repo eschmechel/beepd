@@ -9,14 +9,14 @@
       "binding": "DB",
       "database_name": "beepd-db",
       "database_id": "REPLACE_ME_AFTER_WRANGLER_D1_CREATE",
-      "migrations_dir": "drizzle"
-    }
+      "migrations_dir": "drizzle",
+    },
   ],
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 1
+    "head_sampling_rate": 1,
   },
   "vars": {
-    "APP_ENV": "dev"
-  }
+    "APP_ENV": "dev",
+  },
 }
