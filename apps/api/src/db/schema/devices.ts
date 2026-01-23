@@ -21,8 +21,8 @@ export const devices = sqliteTable(
     isPrimary: integer('is_primary', { mode: 'boolean' })
       .notNull()
       .default(false),
-    lastSeenAt: integer('last_seen_at'),
-    createdAt: integer('created_at')
+    lastSeenAt: integer('last_seen_at', { mode: 'timestamp' }),
+    createdAt: integer('created_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
   },

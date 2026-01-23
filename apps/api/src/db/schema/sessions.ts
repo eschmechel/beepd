@@ -21,12 +21,12 @@ export const sessions = sqliteTable(
       .notNull()
       .references(() => devices.id, { onDelete: 'cascade' }),
     refreshTokenHash: text('refresh_token_hash').notNull(),
-    expiresAt: integer('expires_at').notNull(),
-    revokedAt: integer('revoked_at'),
-    createdAt: integer('created_at')
+    expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+    revokedAt: integer('revoked_at', { mode: 'timestamp' }),
+    createdAt: integer('created_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
-    updatedAt: integer('updated_at')
+    updatedAt: integer('updated_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
   },

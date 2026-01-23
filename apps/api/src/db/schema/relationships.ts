@@ -26,7 +26,7 @@ export const relationships = sqliteTable(
     initiatedBy: text('initiated_by')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    createdAt: integer('created_at')
+    createdAt: integer('created_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
   },

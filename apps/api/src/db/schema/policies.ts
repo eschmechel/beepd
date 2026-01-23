@@ -32,7 +32,7 @@ export const policies = sqliteTable(
     })
       .notNull()
       .default(false),
-    updatedAt: integer('updated_at')
+    updatedAt: integer('updated_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
   },

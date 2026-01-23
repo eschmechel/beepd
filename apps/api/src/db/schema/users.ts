@@ -5,8 +5,8 @@ export const users = sqliteTable('users', {
   id: text('id').primaryKey(),
   displayName: text('display_name').notNull(),
   avatarUrl: text('avatar_url'),
-  createdAt: integer('created_at')
+  createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
     .default(sql`(unixepoch())`),
-  deletedAt: integer('deleted_at'),
+  deletedAt: integer('deleted_at', { mode: 'timestamp' }),
 });

@@ -18,8 +18,8 @@ export const userIdentities = sqliteTable(
       .references(() => users.id, { onDelete: 'cascade' }),
     type: text('type', { enum: ['email', 'phone'] }).notNull(),
     value: text('value').notNull(),
-    verifiedAt: integer('verified_at'),
-    createdAt: integer('created_at')
+    verifiedAt: integer('verified_at', { mode: 'timestamp' }),
+    createdAt: integer('created_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
   },

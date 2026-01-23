@@ -12,10 +12,12 @@ export const otpChallenges = sqliteTable(
     purpose: text('purpose', { enum: ['login', 'link'] }).notNull(),
     codeHash: text('code_hash').notNull(),
     attemptCount: integer('attempt_count').notNull().default(0),
-    resendAvailableAt: integer('resend_available_at').notNull(),
-    expiresAt: integer('expires_at').notNull(),
-    consumedAt: integer('consumed_at'),
-    createdAt: integer('created_at')
+    resendAvailableAt: integer('resend_available_at', {
+      mode: 'timestamp',
+    }).notNull(),
+    expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+    consumedAt: integer('consumed_at', { mode: 'timestamp' }),
+    createdAt: integer('created_at', { mode: 'timestamp' })
       .notNull()
       .default(sql`(unixepoch())`),
     // Optional: store hashed IP/user-agent for rate-limiting/abuse detection later.
