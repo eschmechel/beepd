@@ -4,12 +4,12 @@ import { parseEnv, type Env } from '@/env';
 import { v1Routes } from '@/routes/v1';
 
 const app = new Hono<{
-  Bindings: {
-    DB: D1Database;
-  } & Record<string, unknown>;
   Variables: {
     env: Env;
   };
+  Bindings: {
+    DB: D1Database;
+  } & Record<string, unknown>;
 }>();
 
 app.use('*', async (c, next) => {
