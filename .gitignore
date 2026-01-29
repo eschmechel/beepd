@@ -6,6 +6,5 @@ dist/
 .out/
 coverage/
 *.log
-TODO.md
 .dev.vars
 .wrangler/
