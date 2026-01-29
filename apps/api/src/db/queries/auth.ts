@@ -1,6 +1,5 @@
 import { getDb } from '@/db/client';
-import { drizzle } from 'drizzle-orm/d1';
-import { sql, eq, desc, and, or, isNull } from 'drizzle-orm';
+import { sql, eq, desc, and, isNull } from 'drizzle-orm';
 import {
   devices,
   oauthStates,
@@ -23,13 +22,6 @@ export type Session = typeof sessions.$inferSelect;
 export type NewSession = typeof sessions.$inferInsert;
 export type OauthState = typeof oauthStates.$inferSelect;
 export type NewOauthState = typeof oauthStates.$inferInsert;
-
-// Helper to convert Date to ISO string for D1
-function toIsoString(date: Date | string | null | undefined): string | null {
-  if (!date) return null;
-  if (typeof date === 'string') return date;
-  return date.toISOString();
-}
 
 // -----------------------------------------------------------------------------
 // Users

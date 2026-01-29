@@ -13,9 +13,6 @@
 import type { Env } from '@/env';
 import type { User, Session, Device } from '@/db/queries/auth';
 
-/**
- * Session + token response returned to client
- */
 export interface SessionResponse {
   user: {
     id: string;
@@ -33,336 +30,144 @@ export interface SessionResponse {
   refreshTokenExpiresAt: string;
 }
 
-/**
- * Token claims for access token (JWS payload)
- */
 export interface AccessTokenClaims {
-  sub: string; // userId
-  sid: string; // sessionId
-  exp: number; // expiry timestamp
-  iat: number; // issued at
+  sub: string;
+  sid: string;
+  exp: number;
+  iat: number;
   type: 'access';
 }
 
-/**
- * Token claims for refresh token (JWE payload)
- */
 export interface RefreshTokenClaims {
-  sub: string; // userId
-  sid: string; // sessionId
-  exp: number; // expiry timestamp
-  iat: number; // issued at
+  sub: string;
+  sid: string;
+  exp: number;
+  iat: number;
   type: 'refresh';
-  tokenId: string; // unique token identifier (for rotation)
+  tokenId: string;
 }
 
-/**
- * Create a new session for a user
- *
- * TODO Flow:
- * 1. Generate refresh token (32 random bytes, base64url)
- * 2. Hash refresh token with bcrypt (cost 10)
- * 3. Insert session into sessions table:
- *    - id: crypto.randomUUID()
- *    - user_id
- *    - device_id
- *    - refresh_token_hash
- *    - expires_at: now + 30 days
- *    - created_at: now
- * 4. Generate access token (JWS with claims)
- * 5. Return session response with both tokens
- *
- * @param user - User to create session for
- * @param device - Device session is for
- * @param env - Environment bindings
- * @returns Session response with tokens
- */
-export async function createUserSession(
-  user: User,
-  device: Device,
-  env?: Env
+export function createUserSession(
+  _user: User,
+  _device: Device,
+  _env?: Env
 ): Promise<SessionResponse> {
-  throw new Error('Not implemented - implement createUserSession()');
+  return Promise.reject(
+    new Error('Not implemented - implement createUserSession()')
+  );
 }
 
-/**
- * Verify password/OTP and create session
- *
- * TODO Flow:
- * 1. Verify code matches hash (use otp.ts verifyCodeHash)
- * 2. Find or create user by identifier:
- *    - If identity exists: get user
- *    - If not: create user with email prefix as displayName
- * 3. Get or create device for this deviceToken
- * 4. Create session (use createUserSession)
- * 5. Consume OTP challenge
- * 6. Return session response
- *
- * @param identifierType - 'email' or 'phone'
- * @param identifierValue - Normalized identifier value
- * @param code - User-provided OTP code
- * @param codeHash - Stored hash from challenge
- * @param challengeId - OTP challenge ID
- * @param deviceToken - Device identifier (push token or FCM token)
- * @param platform - Device platform ('ios'|'android'|'web')
- * @param env - Environment bindings
- * @returns Session response
- */
-export async function verifyAndCreateSession(
-  identifierType: string,
-  identifierValue: string,
-  code: string,
-  codeHash: string,
-  challengeId: string,
-  deviceToken: string,
-  platform: string,
-  env?: Env
+export function verifyAndCreateSession(
+  _identifierType: string,
+  _identifierValue: string,
+  _code: string,
+  _codeHash: string,
+  _challengeId: string,
+  _deviceToken: string,
+  _platform: string,
+  _env?: Env
 ): Promise<SessionResponse> {
-  throw new Error('Not implemented - implement verifyAndCreateSession()');
+  return Promise.reject(
+    new Error('Not implemented - implement verifyAndCreateSession()')
+  );
 }
 
-/**
- * Refresh access token using refresh token
- *
- * TODO Flow:
- * 1. Validate refresh token format (JWE)
- * 2. Decrypt JWE, verify claims (type='refresh', not expired)
- * 3. Look up session by id (from token sid claim)
- *    - Must exist, not revoked, not expired
- * 4. Verify session belongs to user (sub claim)
- * 5. Generate new refresh token (rotation):
- *    - New tokenId (crypto.randomUUID)
- *    - New refresh token (32 bytes)
- *    - New hash, update session
- * 6. Generate new access token
- * 7. Return new tokens
- * 8. If old token was reused (different tokenId): revoke session (theft)
- *
- * @param refreshToken - Current refresh token
- * @param env - Environment bindings
- * @returns New session response
- */
-export async function refreshAccessToken(
-  refreshToken: string,
-  env?: Env
+export function refreshAccessToken(
+  _refreshToken: string,
+  _env?: Env
 ): Promise<SessionResponse> {
-  throw new Error('Not implemented - implement refreshAccessToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement refreshAccessToken()')
+  );
 }
 
-/**
- * Revoke current session (logout)
- *
- * TODO Flow:
- * 1. Validate access token or refresh token
- * 2. Extract session id from token
- * 3. Update session: revoked_at = now
- * 4. Return success
- *
- * @param accessToken - Current access token
- * @param env - Environment bindings
- */
-export async function revokeSessionToken(
-  accessToken: string,
-  env?: Env
+export function revokeSessionToken(
+  _accessToken: string,
+  _env?: Env
 ): Promise<void> {
-  throw new Error('Not implemented - implement revokeSessionToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement revokeSessionToken()')
+  );
 }
 
-/**
- * Revoke all sessions for a user (logout everywhere)
- *
- * TODO Flow:
- * 1. Validate current session token
- * 2. Extract user id
- * 3. Update all sessions for user: revoked_at = now
- * 4. Return success
- *
- * @param accessToken - Current access token
- * @param env - Environment bindings
- */
-export async function revokeAllUserSessionsByToken(
-  accessToken: string,
-  env?: Env
+export function revokeAllUserSessionsByToken(
+  _accessToken: string,
+  _env?: Env
 ): Promise<void> {
-  throw new Error('Not implemented - implement revokeAllUserSessionsByToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement revokeAllUserSessionsByToken()')
+  );
 }
 
-/**
- * Get current user from access token
- *
- * TODO Flow:
- * 1. Validate access token (verify JWS)
- * 2. Extract claims
- * 3. Look up user by id (sub claim)
- *    - Must exist, not deleted
- * 4. Look up session by id (sid claim)
- *    - Must exist, not revoked, not expired
- * 5. Return user and session
- *
- * @param accessToken - Access token
- * @param env - Environment bindings
- * @returns User and session if valid
- */
-export async function getCurrentUserFromToken(
-  accessToken: string,
-  env?: Env
+export function getCurrentUserFromToken(
+  _accessToken: string,
+  _env?: Env
 ): Promise<{ user: User; session: Session } | null> {
-  throw new Error('Not implemented - implement getCurrentUserFromToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement getCurrentUserFromToken()')
+  );
 }
 
-/**
- * Generate access token (JWS)
- *
- * TODO Flow:
- * 1. Create claims object with:
- *    - sub: userId
- *    - sid: sessionId
- *    - iat: now
- *    - exp: now + 15 minutes
- *    - type: 'access'
- * 2. Sign withiron-session or jose
- * 3. Return compact serialization
- *
- * @param userId - User ID
- * @param sessionId - Session ID
- * @param env - Environment bindings
- * @returns Signed access token
- */
-export async function generateAccessToken(
-  userId: string,
-  sessionId: string,
-  env?: Env
+export function generateAccessToken(
+  _userId: string,
+  _sessionId: string,
+  _env?: Env
 ): Promise<string> {
-  throw new Error('Not implemented - implement generateAccessToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement generateAccessToken()')
+  );
 }
 
-/**
- * Generate refresh token (JWE)
- *
- * TODO Flow:
- * 1. Create claims object with:
- *    - sub: userId
- *    - sid: sessionId
- *    - iat: now
- *    - exp: now + 30 days
- *    - type: 'refresh'
- *    - tokenId: unique identifier for rotation
- * 2. Generate random key for encryption
- * 3. Encrypt with iron-session or jose (JWE)
- * 4. Return compact serialization
- *
- * @param userId - User ID
- * @param sessionId - Session ID
- * @param tokenId - Unique token identifier
- * @param env - Environment bindings
- * @returns Encrypted refresh token
- */
-export async function generateRefreshToken(
-  userId: string,
-  sessionId: string,
-  tokenId: string,
-  env?: Env
+export function generateRefreshToken(
+  _userId: string,
+  _sessionId: string,
+  _tokenId: string,
+  _env?: Env
 ): Promise<string> {
-  throw new Error('Not implemented - implement generateRefreshToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement generateRefreshToken()')
+  );
 }
 
-/**
- * Verify access token (JWS verification)
- *
- * TODO Flow:
- * 1. Parse compact JWS
- * 2. Verify signature with secret/key
- * 3. Verify claims:
- *    - type === 'access'
- *    - not expired (exp > now)
- * 4. Return claims if valid
- *
- * @param token - Access token to verify
- * @param env - Environment bindings
- * @returns Claims if valid
- */
-export async function verifyAccessToken(
-  token: string,
-  env?: Env
+export function verifyAccessToken(
+  _token: string,
+  _env?: Env
 ): Promise<AccessTokenClaims | null> {
-  throw new Error('Not implemented - implement verifyAccessToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement verifyAccessToken()')
+  );
 }
 
-/**
- * Verify and decrypt refresh token (JWE verification)
- *
- * TODO Flow:
- * 1. Parse compact JWE
- * 2. Decrypt and verify with secret/key
- * 3. Verify claims:
- *    - type === 'refresh'
- *    - not expired (exp > now)
- * 4. Return claims if valid
- *
- * @param token - Refresh token to verify
- * @param env - Environment bindings
- * @returns Claims if valid
- */
-export async function verifyRefreshToken(
-  token: string,
-  env?: Env
+export function verifyRefreshToken(
+  _token: string,
+  _env?: Env
 ): Promise<RefreshTokenClaims | null> {
-  throw new Error('Not implemented - implement verifyRefreshToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement verifyRefreshToken()')
+  );
 }
 
-/**
- * Get session by ID
- *
- * TODO Flow:
- * 1. Query sessions table by id
- * 2. Return session if found and not revoked/expired
- *
- * @param sessionId - Session ID
- * @param env - Environment bindings
- * @returns Session or null
- */
-export async function getSession(
-  sessionId: string,
-  env?: Env
+export function getSession(
+  _sessionId: string,
+  _env?: Env
 ): Promise<Session | null> {
-  throw new Error('Not implemented - implement getSession()');
+  return Promise.reject(new Error('Not implemented - implement getSession()'));
 }
 
-/**
- * Rotate refresh token (generate new one, invalidate old)
- *
- * TODO Flow:
- * 1. Generate new tokenId and refresh token
- * 2. Hash new token
- * 3. Update session: refresh_token_hash = newHash
- * 4. Return new refresh token
- *
- * @param session - Session to rotate
- * @param env - Environment bindings
- * @returns New refresh token
- */
-export async function rotateRefreshToken(
-  session: Session,
-  env?: Env
+export function rotateRefreshToken(
+  _session: Session,
+  _env?: Env
 ): Promise<string> {
-  throw new Error('Not implemented - implement rotateRefreshToken()');
+  return Promise.reject(
+    new Error('Not implemented - implement rotateRefreshToken()')
+  );
 }
 
-/**
- * Get all sessions for a user
- *
- * TODO Flow:
- * 1. Query sessions table by user_id
- * 2. Filter out revoked sessions
- * 3. Return with device info
- *
- * @param userId - User ID
- * @param env - Environment bindings
- * @returns List of active sessions
- */
-export async function getUserSessions(
-  userId: string,
-  env?: Env
+export function getUserSessions(
+  _userId: string,
+  _env?: Env
 ): Promise<Array<Session & { device: Device }>> {
-  throw new Error('Not implemented - implement getUserSessions()');
+  return Promise.reject(
+    new Error('Not implemented - implement getUserSessions()')
+  );
 }

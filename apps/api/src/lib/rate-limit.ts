@@ -6,6 +6,22 @@ export interface RateLimitResult {
   resetAt: number;
 }
 
+interface RateLimitData {
+  count: number;
+  resetAt: number;
+}
+
+function parseRateLimitData(data: unknown): data is RateLimitData {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'count' in data &&
+    'resetAt' in data &&
+    typeof (data as Record<string, unknown>).count === 'number' &&
+    typeof (data as Record<string, unknown>).resetAt === 'number'
+  );
+}
+
 export async function checkRateLimit(
   env: Env,
   type: 'identifier' | 'ip',
@@ -21,10 +37,8 @@ export async function checkRateLimit(
       : env.RATE_LIMIT_IP_WINDOW_SECONDS;
   const kvKey = `ratelimit:${type}:${key}`;
 
-  const current = (await env.KV.get(kvKey, { type: 'json' })) as {
-    count: number;
-    resetAt: number;
-  } | null;
+  const raw = await env.KV.get(kvKey, { type: 'json' });
+  const current = parseRateLimitData(raw) ? raw : null;
 
   if (current && Date.now() < current.resetAt) {
     const remaining = Math.max(0, max - current.count);
@@ -65,10 +79,8 @@ export async function incrementRateLimit(
       : env.RATE_LIMIT_IP_WINDOW_SECONDS;
   const kvKey = `ratelimit:${type}:${key}`;
 
-  const current = (await env.KV.get(kvKey, { type: 'json' })) as {
-    count: number;
-    resetAt: number;
-  } | null;
+  const raw = await env.KV.get(kvKey, { type: 'json' });
+  const current = parseRateLimitData(raw) ? raw : null;
 
   if (current && Date.now() < current.resetAt) {
     await env.KV.put(
@@ -93,16 +105,10 @@ export async function getRateLimitRemaining(
     type === 'identifier'
       ? env.RATE_LIMIT_IDENTIFIER_MAX
       : env.RATE_LIMIT_IP_MAX;
-  const windowSeconds =
-    type === 'identifier'
-      ? env.RATE_LIMIT_IDENTIFIER_WINDOW_SECONDS
-      : env.RATE_LIMIT_IP_WINDOW_SECONDS;
   const kvKey = `ratelimit:${type}:${key}`;
 
-  const current = (await env.KV.get(kvKey, { type: 'json' })) as {
-    count: number;
-    resetAt: number;
-  } | null;
+  const raw = await env.KV.get(kvKey, { type: 'json' });
+  const current = parseRateLimitData(raw) ? raw : null;
 
   if (!current || Date.now() >= current.resetAt) {
     return max;
