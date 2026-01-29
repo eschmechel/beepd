@@ -11,17 +11,17 @@ export function getNearby(c: AppContext) {
   // 3) query relevant UserStateDO instances for last-known locations
   // 4) apply effective policy to determine precision/coarsening
   // 5) return nearby list
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json([]);
 }
 
 export function getNearbyOverlay(c: AppContext) {
   // TODO: authenticate, return coarse H3 overlay (deferred)
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({ cells: [] });
 }
 
 export function postNearbyCell(c: AppContext) {
   // TODO: authenticate, validate cell id, return users in cell (deferred)
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json([]);
 }
 
 nearbyRoutes.get('/', getNearby);

@@ -10,6 +10,9 @@ export type AppEnv = {
     // Filled by env middleware in src/index.ts
     env: Env;
 
+    // Filled by request middleware in src/index.ts
+    requestId: string;
+
     // Filled by auth middleware when present
     userId?: string;
     sessionId?: string;

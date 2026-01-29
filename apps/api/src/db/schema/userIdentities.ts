@@ -9,6 +9,14 @@ import {
 
 import { users } from '@/db/schema/users';
 
+export type IdentityType =
+  | 'email'
+  | 'phone'
+  | 'google'
+  | 'github'
+  | 'microsoft'
+  | 'apple';
+
 export const userIdentities = sqliteTable(
   'user_identities',
   {
@@ -16,7 +24,9 @@ export const userIdentities = sqliteTable(
     userId: text('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    type: text('type', { enum: ['email', 'phone'] }).notNull(),
+    type: text('type', {
+      enum: ['email', 'phone', 'google', 'github', 'microsoft', 'apple'],
+    }).notNull(),
     value: text('value').notNull(),
     verifiedAt: integer('verified_at', { mode: 'timestamp' }),
     createdAt: integer('created_at', { mode: 'timestamp' })

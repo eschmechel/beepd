@@ -6,7 +6,7 @@ export const policiesRoutes = new Hono();
 
 export function getPolicies(c: AppContext) {
   // TODO: authenticate, list policies for current user
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json([]);
 }
 
 export function putPoliciesGlobal(c: AppContext) {
@@ -14,18 +14,18 @@ export function putPoliciesGlobal(c: AppContext) {
   // 1) authenticate
   // 2) validate body (vpr/per/location_enabled/notifications_enabled)
   // 3) upsert global policy row
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({});
 }
 
 export function putPoliciesFriend(c: AppContext) {
   // TODO: authenticate, validate friendId param + body, upsert friend policy
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({});
 }
 
 export function putPoliciesGroup(c: AppContext) {
   // v0.1: groups are deferred, but keep route stub for API shape stability.
   // TODO: authenticate, validate groupId + body, upsert group policy
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({});
 }
 
 export function getPoliciesEffective(c: AppContext) {
@@ -33,7 +33,12 @@ export function getPoliciesEffective(c: AppContext) {
   // 1) authenticate
   // 2) validate viewerId param
   // 3) compute effective policy (friend overrides > group permissive > global)
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({
+    vpr: 250,
+    per: 100,
+    locationEnabled: true,
+    notificationsEnabled: true,
+  });
 }
 
 policiesRoutes.get('/', getPolicies);

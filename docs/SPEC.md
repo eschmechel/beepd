@@ -196,13 +196,13 @@ users (
   deleted_at    TIMESTAMP  -- soft delete
 )
 
--- Linked identifiers (email/phone) for a single user.
+-- Linked identifiers (email/phone/OAuth) for a single user.
 -- Identities are only created/attached after successful verification.
 user_identities (
   id          UUID PRIMARY KEY,
   user_id     UUID REFERENCES users(id),
-  type        TEXT CHECK (type IN ('email', 'phone')),
-  value       TEXT NOT NULL, -- normalized (email: trim+lowercase, phone: E.164)
+  type        TEXT CHECK (type IN ('email', 'phone', 'google', 'microsoft', 'apple', 'github')),
+  value       TEXT NOT NULL, -- normalized (email: trim+lowercase, phone: E.164, OAuth: provider user id)
   verified_at TIMESTAMP,
   created_at  TIMESTAMP DEFAULT NOW(),
   UNIQUE(type, value)
@@ -220,6 +220,16 @@ otp_challenges (
   expires_at          TIMESTAMP NOT NULL,
   consumed_at         TIMESTAMP,
   created_at          TIMESTAMP DEFAULT NOW()
+)
+
+-- OAuth state tokens (CSRF protection)
+oauth_states (
+  id          UUID PRIMARY KEY,
+  provider    TEXT NOT NULL,
+  state       TEXT NOT NULL UNIQUE,
+  redirect_uri TEXT NOT NULL,
+  expires_at  TIMESTAMP NOT NULL,
+  created_at  TIMESTAMP DEFAULT NOW()
 )
 
 devices (
@@ -432,13 +442,15 @@ All versioned endpoints use prefix `/v1`. Health and admin endpoints are unversi
 
 ### Authentication
 
-| Method | Path               | Description                                 |
-| ------ | ------------------ | ------------------------------------------- |
-| POST   | `/v1/auth/start`   | Start passwordless auth (email/phone/OAuth) |
-| POST   | `/v1/auth/verify`  | Verify OTP or OAuth callback                |
-| POST   | `/v1/auth/refresh` | Exchange refresh token for new access token |
-| POST   | `/v1/auth/logout`  | Revoke current session                      |
-| GET    | `/v1/auth/me`      | Get current user + session info             |
+| Method | Path                   | Description                                    |
+| ------ | ---------------------- | ---------------------------------------------- |
+| POST   | `/v1/auth/start`       | Start auth (OTP or OAuth)                      |
+| POST   | `/v1/auth/verify`      | Verify OTP code or OAuth callback              |
+| POST   | `/v1/auth/refresh`     | Exchange refresh token for new access token    |
+| POST   | `/v1/auth/logout`      | Revoke current session                         |
+| GET    | `/v1/auth/me`          | Get current user + session info                |
+| POST   | `/v1/auth/link/start`  | Start linking new identifier (requires auth)   |
+| POST   | `/v1/auth/link/verify` | Verify and link new identifier (requires auth) |
 
 ### Users & Devices
 
@@ -591,22 +603,76 @@ All versioned endpoints use prefix `/v1`. Health and admin endpoints are unversi
 
 ## Authentication & Security
 
+### Authentication Methods
+
+Beepd supports multiple authentication methods:
+
+| Method      | Provider  | Cost         | Status             |
+| ----------- | --------- | ------------ | ------------------ |
+| OTP (Email) | Resend    | Free (3k/mo) | In progress (v0.1) |
+| OTP (Phone) | Twilio    | ~$0.008/SMS  | Stubbed (v1.1)     |
+| OAuth       | Google    | Free         | In progress (v0.1) |
+| OAuth       | GitHub    | Free         | In progress (v0.1) |
+| OAuth       | Microsoft | Free         | Deferred (v1.2)    |
+| OAuth       | Apple     | $120/yr      | Deferred (v1.2)    |
+
+### OTP Specifications
+
+OTP configuration is hardcoded in `apps/api/src/services/otp.ts` (CONFIGURATION section).
+
+| Setting              | Value                              | Location                    |
+| -------------------- | ---------------------------------- | --------------------------- |
+| Code format          | 6 chars, alphanumeric (no I,O,1,0) | `CODE_LENGTH`, `CODE_CHARS` |
+| Code lifetime        | 5 minutes                          | `CODE_LIFETIME_MS`          |
+| Max attempts         | 5 per challenge                    | `MAX_ATTEMPTS`              |
+| Resend cooldown      | 60 seconds                         | `RESEND_COOLDOWN_MS`        |
+| Per-identifier limit | 5 requests / hour                  | `RATE_LIMIT_IDENTIFIER_*`   |
+| Per-IP limit         | 4 requests / minute                | `RATE_LIMIT_IP_*`           |
+
+Change requires code deployment.
+
 ### Token Strategy
 
-| Token   | Format              | Lifetime   | Storage                   |
-| ------- | ------------------- | ---------- | ------------------------- |
-| Access  | JWS (signed JWT)    | 15 minutes | Memory only               |
-| Refresh | JWE (encrypted JWT) | 30 days    | HttpOnly cookie + D1 hash |
+| Token   | Format             | Lifetime   | Storage                   |
+| ------- | ------------------ | ---------- | ------------------------- |
+| Access  | JWS (iron-session) | 15 minutes | Memory only               |
+| Refresh | JWE (iron-session) | 30 days    | HttpOnly cookie + D1 hash |
 
-**Refresh rotation**: Each refresh issues a new token and invalidates the old one. Reuse of old token revokes entire session (potential theft).
+**Refresh rotation**: Every refresh token use issues a new token and invalidates the old one. Reuse of old token revokes entire session (potential theft).
+
+### Rate Limiting
+
+Rate limits are enforced via KV counters:
+
+| Limit Type           | Threshold  | Window        | Key Pattern                     |
+| -------------------- | ---------- | ------------- | ------------------------------- |
+| Per identifier (OTP) | 5 requests | 1 hour        | `ratelimit:id:{identifierHash}` |
+| Per IP (all auth)    | 4 requests | 1 minute      | `ratelimit:ip:{ipAddress}`      |
+| Verify attempts      | 5 max      | per challenge | `attempt_count` in DB           |
+| Resend cooldown      | 1 request  | 60 seconds    | N/A (tracked in challenge row)  |
+
+### Account Linking
+
+Users can link multiple identifiers to a single account:
+
+- Email + phone via OTP
+- OAuth providers linked via identity matching (email address)
+
+**Linking flow:** While logged in, start linking → verify new identifier → auto-linked to existing user (no separate verification needed since user is authenticated).
+
+### Display Name
+
+- Optional in signup
+- If not provided, defaults to email prefix (e.g., "john" for "john@example.com")
 
 ### OAuth Providers
 
 - Apple Sign In
 - Google Sign In
-- GitHub (optional for developer auth)
-- Email + OTP fallback
-- Phone + SMS OTP fallback
+- Microsoft Sign In
+- GitHub Sign In
+- Email + OTP fallback (via Resend)
+- Phone + SMS OTP fallback (via Twilio - stubbed for v1.1)
 
 ### Security Measures
 
@@ -852,4 +918,4 @@ Release readiness:
 
 ---
 
-Last updated: 2026-01-22
+Last updated: 2026-01-27

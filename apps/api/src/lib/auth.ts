@@ -1,6 +1,7 @@
 import { EncryptJWT, SignJWT, base64url, jwtDecrypt, jwtVerify } from 'jose';
 
 import { ApiError } from '@/lib/errors';
+import type { Env } from '@/env';
 
 export type AccessTokenPayload = {
   sub: string;
@@ -14,17 +15,15 @@ export type RefreshTokenPayload = {
   did: string;
 };
 
-function requireSigningSecret(env: { AUTH_JWT_SIGNING_SECRET?: string }) {
-  if (!env.AUTH_JWT_SIGNING_SECRET) {
+function requireSigningSecret(env: Env) {
+  if (!env.SESSION_SECRET) {
     throw new ApiError(500, 'Auth misconfigured');
   }
-  return new TextEncoder().encode(env.AUTH_JWT_SIGNING_SECRET);
+  return new TextEncoder().encode(env.SESSION_SECRET);
 }
 
-async function requireRefreshKey(env: {
-  AUTH_REFRESH_TOKEN_ENCRYPTION_KEY?: string;
-}) {
-  if (!env.AUTH_REFRESH_TOKEN_ENCRYPTION_KEY) {
+async function requireRefreshKey(env: Env) {
+  if (!env.SESSION_SECRET) {
     throw new ApiError(500, 'Auth misconfigured');
   }
 
@@ -32,20 +31,18 @@ async function requireRefreshKey(env: {
   // convenience, also accept an arbitrary string and derive a 32-byte key
   // via SHA-256.
   try {
-    return base64url.decode(env.AUTH_REFRESH_TOKEN_ENCRYPTION_KEY);
+    return base64url.decode(env.SESSION_SECRET);
   } catch {
     const digest = await crypto.subtle.digest(
       'SHA-256',
-      new TextEncoder().encode(
-        env.AUTH_REFRESH_TOKEN_ENCRYPTION_KEY
-      ) as BufferSource
+      new TextEncoder().encode(env.SESSION_SECRET) as BufferSource
     );
     return new Uint8Array(digest);
   }
 }
 
 export async function signAccessToken(options: {
-  env: { AUTH_JWT_SIGNING_SECRET?: string };
+  env: Env;
   userId: string;
   sessionId: string;
   deviceId: string;
@@ -62,7 +59,7 @@ export async function signAccessToken(options: {
 }
 
 export async function verifyAccessToken(options: {
-  env: { AUTH_JWT_SIGNING_SECRET?: string };
+  env: Env;
   token: string;
 }): Promise<AccessTokenPayload> {
   const secret = requireSigningSecret(options.env);
@@ -76,7 +73,7 @@ export async function verifyAccessToken(options: {
 }
 
 export async function encryptRefreshToken(options: {
-  env: { AUTH_REFRESH_TOKEN_ENCRYPTION_KEY?: string };
+  env: Env;
   userId: string;
   sessionId: string;
   deviceId: string;
@@ -93,7 +90,7 @@ export async function encryptRefreshToken(options: {
 }
 
 export async function decryptRefreshToken(options: {
-  env: { AUTH_REFRESH_TOKEN_ENCRYPTION_KEY?: string };
+  env: Env;
   token: string;
 }): Promise<RefreshTokenPayload> {
   const key = await requireRefreshKey(options.env);

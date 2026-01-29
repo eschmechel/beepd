@@ -9,7 +9,10 @@ export const authRoutes = new Hono();
 export async function postAuthStart(c: AppContext) {
   // TODO (docs/SPEC.md + TODO.md Phase 4):
   // 1) Parse and validate body: { identifier: string }
-  const { identifier } = await readJsonBody(c, schemas.authStartRequestSchema);
+  const { identifier: _identifier } = await readJsonBody(
+    c,
+    schemas.authStartRequestSchema
+  );
   // 2) Detect + normalize identifier:
   //    - if contains '@' => email: trim + lowercase
   //    - else => phone: require E.164 (leading '+', do not guess region)
@@ -27,14 +30,14 @@ export async function postAuthStart(c: AppContext) {
   // 5) Send OTP via email/SMS provider
   //    - DO NOT leak whether identifier exists
   //    - DO NOT leak deliverability/provider errors to the client
-  // 6) Return a generic success response (ok: true)
-  return c.json({ error: 'Not implemented' }, 501);
+  // 6) Return empty 200 (idempotent)
+  return c.json({});
 }
 
 export async function postAuthVerify(c: AppContext) {
   // TODO (docs/SPEC.md + TODO.md Phase 4):
   // 1) Parse and validate body:
-  const body = await readJsonBody(c, schemas.authVerifyRequestSchema);
+  const _body = await readJsonBody(c, schemas.authVerifyRequestSchema);
   // 2) Normalize identifier (same as /start)
   // 3) Load latest unconsumed otp_challenges for identifier (purpose='login')
   // 4) Enforce expires_at and attempt_count < OTP_MAX_VERIFY_ATTEMPTS (default 5)
@@ -62,10 +65,15 @@ export async function postAuthVerify(c: AppContext) {
   //    - Refresh: JWE encrypted JWT (AUTH_REFRESH_TOKEN_TTL_SECONDS)
   // 11) Set refresh token HttpOnly cookie
   // 12) Return access token + user/session/device info
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({
+    accessToken: 'TODO',
+    userId: 'TODO',
+    sessionId: 'TODO',
+    deviceId: 'TODO',
+  });
 }
 
-export async function postAuthRefresh(c: AppContext) {
+export function postAuthRefresh(c: AppContext) {
   // TODO (docs/SPEC.md "Refresh rotation"):
   // 1) Read refresh token from HttpOnly cookie
   // 2) Decrypt/validate refresh JWE and extract userId/sessionId/deviceId
@@ -79,24 +87,28 @@ export async function postAuthRefresh(c: AppContext) {
   // 7) Issue new access token and return it
   // Notes:
   // - Also reject if sessions.revoked_at is set or sessions.expires_at passed
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({ accessToken: 'TODO' });
 }
 
-export async function postAuthLogout(c: AppContext) {
+export function postAuthLogout(c: AppContext) {
   // TODO:
   // 1) Authenticate user (access token)
   // 2) Revoke current session (set revoked_at)
   // 3) Clear refresh cookie
-  // 4) Return ok: true
-  return c.json({ error: 'Not implemented' }, 501);
+  // 4) Return empty 200
+  return c.json({});
 }
 
-export async function getAuthMe(c: AppContext) {
+export function getAuthMe(c: AppContext) {
   // TODO:
   // 1) Authenticate user (access token)
   // 2) Load user row + session row + device row
   // 3) Return current user + session/device info
-  return c.json({ error: 'Not implemented' }, 501);
+  return c.json({
+    userId: 'TODO',
+    sessionId: 'TODO',
+    deviceId: 'TODO',
+  });
 }
 
 authRoutes.post('/start', postAuthStart);
