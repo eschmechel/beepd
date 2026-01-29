@@ -10,21 +10,29 @@
     "db:migrate:remote": "wrangler d1 migrations apply beepd-db --remote",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.1",
     "hono": "^4.6.5",
+    "iron-session": "^8.0.4",
     "jose": "^6.0.8",
+    "resend": "^6.9.1",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@beepd/config": "workspace:*",
     "@cloudflare/workers-types": "^4.20250121.0",
+    "@types/bcryptjs": "^3.0.0",
     "@types/node": "^22.10.2",
+    "@vitest/ui": "^4.0.18",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9.18.0",
     "typescript": "^5.7.3",
+    "vitest": "^4.0.18",
     "wrangler": "^4.6.0"
   }
 }

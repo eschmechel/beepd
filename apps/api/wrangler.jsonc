@@ -8,8 +8,15 @@
     {
       "binding": "DB",
       "database_name": "beepd-db",
-      "database_id": "REPLACE_ME_AFTER_WRANGLER_D1_CREATE",
+      "database_id": "00000000-0000-0000-0000-000000000000",
       "migrations_dir": "drizzle",
+    },
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "00000000000000000000000000000000",
+      "preview_id": "00000000000000000000000000000000",
     },
   ],
   "observability": {
