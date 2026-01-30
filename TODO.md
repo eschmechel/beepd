@@ -205,18 +205,18 @@ Users can link multiple identifiers to a single account:
 
 - [x] KV rate limiter helper (`src/lib/rate-limit.ts`)
 - [x] DB query helpers (`src/db/queries/auth.ts`)
-- [X] **OTP service (`src/services/otp.ts`)**
+- [x] **OTP service (`src/services/otp.ts`)**
   - [x] Configuration constants (hardcoded in file header)
     - CODE_LENGTH = 6
     - CODE_CHARS = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ'
-    - CODE_LIFETIME_MS = 5 _ 60 _ 1000 (5 minutes)
+    - CODE*LIFETIME_MS = 5 * 60 \_ 1000 (5 minutes)
     - RESEND_COOLDOWN_MS = 60 \* 1000 (60 seconds)
     - MAX_ATTEMPTS = 5
-  - [X] `generateCode()` - crypto.getRandomValues()
-  - [X] `hashCode()` / `verifyCodeHash()` - bcrypt
-  - [X] `sendEmailCode()` - Resend integration
-  - [X] `startChallenge()` - rate check → create challenge → send
-  - [X] `verifyCode()` - check attempts → validate → consume
+  - [x] `generateCode()` - crypto.getRandomValues()
+  - [x] `hashCode()` / `verifyCodeHash()` - bcrypt
+  - [x] `sendEmailCode()` - Resend integration
+  - [x] `startChallenge()` - rate check → create challenge → send
+  - [x] `verifyCode()` - check attempts → validate → consume
 - [ ] **OAuth service (`src/services/oauth.ts`)**
   - [ ] `getProviderConfig()` - URLs and scopes for Google + GitHub
   - [ ] `generateState()` - cryptographically random string

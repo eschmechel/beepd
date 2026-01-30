@@ -62,24 +62,17 @@
       "indexes": {
         "devices_user_id_idx": {
           "name": "devices_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         },
         "devices_user_is_primary_idx": {
           "name": "devices_user_is_primary_idx",
-          "columns": [
-            "user_id",
-            "is_primary"
-          ],
+          "columns": ["user_id", "is_primary"],
           "isUnique": false
         },
         "devices_push_token_unique": {
           "name": "devices_push_token_unique",
-          "columns": [
-            "push_token"
-          ],
+          "columns": ["push_token"],
           "isUnique": true
         }
       },
@@ -88,12 +81,8 @@
           "name": "devices_user_id_users_id_fk",
           "tableFrom": "devices",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -152,30 +141,22 @@
       "indexes": {
         "oauth_states_state_unique": {
           "name": "oauth_states_state_unique",
-          "columns": [
-            "state"
-          ],
+          "columns": ["state"],
           "isUnique": true
         },
         "oauth_states_state_idx": {
           "name": "oauth_states_state_idx",
-          "columns": [
-            "state"
-          ],
+          "columns": ["state"],
           "isUnique": false
         },
         "oauth_states_provider_idx": {
           "name": "oauth_states_provider_idx",
-          "columns": [
-            "provider"
-          ],
+          "columns": ["provider"],
           "isUnique": false
         },
         "oauth_states_expires_at_idx": {
           "name": "oauth_states_expires_at_idx",
-          "columns": [
-            "expires_at"
-          ],
+          "columns": ["expires_at"],
           "isUnique": false
         }
       },
@@ -270,10 +251,7 @@
       "indexes": {
         "otp_challenges_identifier_idx": {
           "name": "otp_challenges_identifier_idx",
-          "columns": [
-            "identifier_type",
-            "identifier_value"
-          ],
+          "columns": ["identifier_type", "identifier_value"],
           "isUnique": false
         }
       },
@@ -365,18 +343,12 @@
       "indexes": {
         "policies_owner_scope_target_unique": {
           "name": "policies_owner_scope_target_unique",
-          "columns": [
-            "owner_id",
-            "scope",
-            "target_id"
-          ],
+          "columns": ["owner_id", "scope", "target_id"],
           "isUnique": true
         },
         "policies_owner_id_idx": {
           "name": "policies_owner_id_idx",
-          "columns": [
-            "owner_id"
-          ],
+          "columns": ["owner_id"],
           "isUnique": false
         }
       },
@@ -385,12 +357,8 @@
           "name": "policies_owner_id_users_id_fk",
           "tableFrom": "policies",
           "tableTo": "users",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -449,24 +417,17 @@
       "indexes": {
         "relationships_user_a_user_b_unique": {
           "name": "relationships_user_a_user_b_unique",
-          "columns": [
-            "user_a_id",
-            "user_b_id"
-          ],
+          "columns": ["user_a_id", "user_b_id"],
           "isUnique": true
         },
         "relationships_user_a_id_idx": {
           "name": "relationships_user_a_id_idx",
-          "columns": [
-            "user_a_id"
-          ],
+          "columns": ["user_a_id"],
           "isUnique": false
         },
         "relationships_user_b_id_idx": {
           "name": "relationships_user_b_id_idx",
-          "columns": [
-            "user_b_id"
-          ],
+          "columns": ["user_b_id"],
           "isUnique": false
         }
       },
@@ -475,12 +436,8 @@
           "name": "relationships_user_a_id_users_id_fk",
           "tableFrom": "relationships",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_a_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_a_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -488,12 +445,8 @@
           "name": "relationships_user_b_id_users_id_fk",
           "tableFrom": "relationships",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_b_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_b_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -501,12 +454,8 @@
           "name": "relationships_initiated_by_users_id_fk",
           "tableFrom": "relationships",
           "tableTo": "users",
-          "columnsFrom": [
-            "initiated_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["initiated_by"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -580,16 +529,12 @@
       "indexes": {
         "sessions_user_id_idx": {
           "name": "sessions_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         },
         "sessions_device_id_unique": {
           "name": "sessions_device_id_unique",
-          "columns": [
-            "device_id"
-          ],
+          "columns": ["device_id"],
           "isUnique": true
         }
       },
@@ -598,12 +543,8 @@
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -611,12 +552,8 @@
           "name": "sessions_device_id_devices_id_fk",
           "tableFrom": "sessions",
           "tableTo": "devices",
-          "columnsFrom": [
-            "device_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["device_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -675,17 +612,12 @@
       "indexes": {
         "user_identities_type_value_unique": {
           "name": "user_identities_type_value_unique",
-          "columns": [
-            "type",
-            "value"
-          ],
+          "columns": ["type", "value"],
           "isUnique": true
         },
         "user_identities_user_id_idx": {
           "name": "user_identities_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         }
       },
@@ -694,12 +626,8 @@
           "name": "user_identities_user_id_users_id_fk",
           "tableFrom": "user_identities",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
